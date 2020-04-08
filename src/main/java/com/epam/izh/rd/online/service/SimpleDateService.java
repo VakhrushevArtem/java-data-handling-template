@@ -14,7 +14,8 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public String parseDate(LocalDate localDate) {
-        return null;
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return dateTimeFormatter.format(localDate);
     }
 
     /**
@@ -25,7 +26,8 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public LocalDateTime parseString(String string) {
-        return null;
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(string, dateTimeFormatter);
     }
 
     /**
@@ -37,7 +39,7 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public String convertToCustomFormat(LocalDate localDate, DateTimeFormatter formatter) {
-        return null;
+        return formatter.format(localDate);
     }
 
     /**
@@ -47,7 +49,11 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public long getNextLeapYear() {
-        return 0;
+        LocalDate date = LocalDate.now();
+        while (!date.isLeapYear()) {
+            date = LocalDate.ofYearDay(date.getYear() + 1, 1);
+        }
+        return date.getYear();
     }
 
     /**
@@ -57,7 +63,12 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public long getSecondsInYear(int year) {
-        return 0;
+        LocalDate date = LocalDate.ofYearDay(year, 1);
+        if (date.isLeapYear()) {
+            return 31622400;
+        } else {
+            return 31536000;
+        }
     }
 
 

@@ -85,13 +85,13 @@ public class SimpleFileRepository implements FileRepository {
         String fullPath = path + "/" + name;
         File file = new File(path);
         if (!file.exists()) {
-            try {
                 file.mkdir();
-                file = new File(fullPath);
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        file = new File(fullPath);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return file.exists();
     }
